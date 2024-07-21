@@ -18,6 +18,10 @@ const routes: Routes = [{
   }, {
     path: 'chartjs',
     component: ChartjsComponent,
+  },{
+    path: '',
+    redirectTo: 'echarts',
+    pathMatch: 'full',
   }],
 }];
 

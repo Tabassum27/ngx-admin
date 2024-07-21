@@ -15,4 +15,20 @@ import { MENU_ITEMS } from './pages-menu';
 export class PagesComponent {
 
   menu = MENU_ITEMS;
+
+  /**
+   * 
+   *   <div myMenu class="main-container main-container-fixed">
+        <div class="scrollable">
+          <ul class="menu-items">
+            <li class="menu-item">
+            <a  [routerLink]="['/pages/dashboard']"  title="E-commerce">
+              <nb-icon icon="desktop-outline" pack="ion"></nb-icon>
+              <span class="menu-title">E-commerce</span>
+            </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+   */
 }

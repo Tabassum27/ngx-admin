@@ -70,7 +70,7 @@ const routes: Routes = [{
     },
     {
       path: '',
-      redirectTo: 'dashboard',
+      redirectTo: 'charts',
       pathMatch: 'full',
     },
     {

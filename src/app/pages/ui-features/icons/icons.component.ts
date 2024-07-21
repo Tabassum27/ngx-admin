@@ -22,20 +22,7 @@ export class IconsComponent {
 
   icons = {
 
-    ionicons: [
-      'ionic', 'arrow-right-b', 'arrow-down-b', 'arrow-left-b', 'arrow-up-c', 'arrow-right-c',
-      'arrow-down-c', 'arrow-left-c', 'arrow-return-right', 'arrow-return-left', 'arrow-swap',
-      'arrow-shrink', 'arrow-expand', 'arrow-move', 'arrow-resize', 'chevron-up',
-      'chevron-right', 'chevron-down', 'chevron-left', 'navicon-round', 'navicon',
-      'drag', 'log-in', 'log-out', 'checkmark-round', 'checkmark', 'checkmark-circled',
-      'close-round', 'plus-round', 'minus-round', 'information', 'help',
-      'backspace-outline', 'help-buoy', 'asterisk', 'alert', 'alert-circled',
-      'refresh', 'loop', 'shuffle', 'home', 'search', 'flag', 'star',
-      'heart', 'heart-broken', 'gear-a', 'gear-b', 'toggle-filled', 'toggle',
-      'settings', 'wrench', 'hammer', 'edit', 'trash-a', 'trash-b',
-      'document', 'document-text', 'clipboard', 'scissors', 'funnel',
-      'bookmark', 'email', 'email-unread', 'folder', 'filing', 'archive',
-      'reply', 'reply-all', 'forward',
+    ionicons: ['arrow-back-outline'
     ],
 
     fontAwesome: [
@@ -47,7 +34,23 @@ export class IconsComponent {
       'briefcase', 'bug', 'building', 'bullhorn',
     ],
 
-    fontAwesomeRegular: [ 'chart-bar', 'bell', 'bell-slash', 'bookmark', 'building' ],
+    fontAwesomeRegular: ['chart-bar', 'bell', 'bell-slash', 'bookmark', 'building'],
   };
 
+  /***
+   * 
+   * For Main Menu (on left side) use icon set "ion-icon" (https://ionic.io/ionicons). Unfortunately, eva-icons does not have what we need
+The code is : <ion-icon name="ICON-CODE-NAME"></ion-icon>
+Dash - "desktop-outline"(first menu icon)
+Segment - "pie-chart-outline"(second menu icon)
+Scores - "speedometer-outline"
+Churn - "trending-down-outline"
+Upsell - "push-outline"
+Cross-sell - "shuffle-outline"
+ARPU - "cash-outline"
+Insights - "pulse-outline"
+Custom - "options-outline"
+Settings - "settings-outline"
+
+   */
 }

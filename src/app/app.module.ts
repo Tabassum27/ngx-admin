@@ -20,6 +20,7 @@ import {
   NbToastrModule,
   NbWindowModule,
 } from '@nebular/theme';
+import { IonicModule } from '@ionic/angular';
 
 @NgModule({
   declarations: [AppComponent],
@@ -39,6 +40,8 @@ import {
     }),
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
+    IonicModule.forRoot()
+
   ],
   bootstrap: [AppComponent],
 })

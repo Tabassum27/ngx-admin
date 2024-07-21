@@ -1,6 +1,7 @@
 @import '../../../@theme/styles/themes';
 
 @include nb-install-component() {
+
   ngx-echarts-pie,
   ngx-echarts-bar,
   ngx-echarts-line,
@@ -17,4 +18,14 @@
     height: 100%;
     width: 100%;
   }
+}
+
+.dish-text {
+  padding-bottom: 2rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.custom-file-label::after {
+  content: none;
 }

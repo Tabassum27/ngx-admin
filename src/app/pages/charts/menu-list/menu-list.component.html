@@ -1,0 +1,42 @@
+<nb-card *ngIf="true || excelData.length != 0">
+    <nb-card-header>
+        <div class="row">
+            <div class="col-lg-6">
+                <input type="text" placeholder="Type here to search" nbinput (keyup)="onKeyUp($event)"
+                    class="input-full-width size-medium status-basic shape-rectangle nb-transition">
+            </div>
+            <div class="col-lg-6 d-flex justify-content-end">
+                <button class="btn btn-secondary" (click)="onSubmt()">Submit</button>
+            </div>
+        </div>
+
+    </nb-card-header>
+
+    <nb-card-body>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Order No.</th>
+                    <th scope="col">Food Item Order</th>
+                    <th scope="col">Ordered Item Class</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container
+                    *ngFor="let item of menuList | paginate: { itemsPerPage: 7, currentPage: p, totalItems: excelData?.length }; let index =index">
+                    <tr (mouseover)="hoverIndex = index">
+                        <th scope="row">{{item?.orderNo}}</th>
+                        <td>{{item?.foodItemOrdered}}</td>
+                        <td>{{item?.orderedItemClass}}</td>
+                        <td>
+                            <button *ngIf="hoverIndex == index" type="button" (click)="onOrder(item)"
+                                class="btn btn-secondary btn-sm">Order</button>
+                        </td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </nb-card-body>
+</nb-card>

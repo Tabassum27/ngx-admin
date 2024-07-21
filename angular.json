@@ -22,6 +22,11 @@
               "src/favicon.ico",
               "src/favicon.png",
               {
+                "glob": "**/*.svg",
+                "input": "node_modules/ionicons/dist/ionicons/svg",
+                "output": "./svg"
+              },
+              {
                 "glob": "**/*",
                 "input": "node_modules/leaflet/dist/images",
                 "output": "/assets/img/markers"
@@ -31,7 +36,6 @@
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/typeface-exo/index.css",
               "node_modules/roboto-fontface/css/roboto/roboto-fontface.css",
-              "node_modules/ionicons/scss/ionicons.scss",
               "node_modules/@fortawesome/fontawesome-free/css/all.css",
               "node_modules/socicon/css/socicon.css",
               "node_modules/nebular-icons/scss/nebular-icons.scss",
@@ -187,5 +191,8 @@
     "@angular-eslint/schematics:library": {
       "setParserOptionsProject": true
     }
+  },
+  "cli": {
+    "analytics": "324c0b89-cc6b-4120-a927-da78869060a2"
   }
 }
