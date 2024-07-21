@@ -29,6 +29,7 @@ import { EchartsRadarComponent } from './echarts/echarts-radar.component';
 import { MenuListComponent } from './menu-list/menu-list.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { FormsModule } from '@angular/forms';
 
 const components = [
   ChartjsBarComponent,
@@ -64,7 +65,8 @@ const components = [
     NbIconModule,
     NbInputModule,
     Ng2SmartTableModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    FormsModule
   ],
   declarations: [...routedComponents, ...components, MenuListComponent],
 })

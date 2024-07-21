@@ -2,7 +2,8 @@
     <nb-card-header>
         <div class="row">
             <div class="col-lg-6">
-                <input type="text" placeholder="Type here to search" nbinput (keyup)="onKeyUp($event)"
+                <input type="text" placeholder="Type here to search" nbinput [(ngModel)]="searchInput"
+                    (ngModelChange)="onModelChangeSubject.next()"
                     class="input-full-width size-medium status-basic shape-rectangle nb-transition">
             </div>
             <div class="col-lg-6 d-flex justify-content-end">
@@ -25,14 +26,10 @@
             <tbody>
                 <ng-container
                     *ngFor="let item of menuList | paginate: { itemsPerPage: 7, currentPage: p, totalItems: excelData?.length }; let index =index">
-                    <tr (mouseover)="hoverIndex = index">
+                    <tr class="cursor-pointer" (click)="onSelectMenu(item)">
                         <th scope="row">{{item?.orderNo}}</th>
                         <td>{{item?.foodItemOrdered}}</td>
                         <td>{{item?.orderedItemClass}}</td>
-                        <td>
-                            <button *ngIf="hoverIndex == index" type="button" (click)="onOrder(item)"
-                                class="btn btn-secondary btn-sm">Order</button>
-                        </td>
                     </tr>
                 </ng-container>
             </tbody>

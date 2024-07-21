@@ -1,4 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 interface menuData {
   foodItemOrdered: string,
@@ -15,9 +17,12 @@ export class MenuListComponent {
 
   @Input() excelData: menuData[];
   @Output() submiEvent = new EventEmitter();
+  public onModelChangeSubject = new Subject<string>();
+
 
   menuList: menuData[] = [];
   hoverIndex: number;
+  searchInput: string;
 
   constructor() {
   }
@@ -26,11 +31,12 @@ export class MenuListComponent {
     if (this.excelData) {
       this.menuList = this.excelData;
     }
+    this.onModelChangeSubject.pipe(debounceTime(1000)).subscribe(_ => {
+      this.onInputSearch();
+    });
   }
 
   onKeyUp(event) {
-    console.log(event.target.value);
-    console.log("excel", this.excelData);
     this.menuList = this.excelData.filter(data => {
       if (data.foodItemOrdered.toLocaleLowerCase().includes(event.target.value.toLocaleLowerCase())) {
         return data;
@@ -39,12 +45,21 @@ export class MenuListComponent {
     console.log(this.menuList)
   }
 
-  onOrder(item: menuData) {
-
-  }
-
   onSubmt() {
     console.log("sumbit clicked!!")
     this.submiEvent.emit(true);
+  }
+
+  onSelectMenu(item: menuData) {
+    this.searchInput = item.foodItemOrdered;
+    this.onInputSearch();
+  }
+
+  onInputSearch() {
+    this.menuList = this.excelData.filter(data => {
+      if (data.foodItemOrdered.toLocaleLowerCase().includes(this.searchInput.toLocaleLowerCase())) {
+        return data;
+      }
+    });
   }
 }
