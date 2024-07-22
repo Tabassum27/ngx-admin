@@ -56,7 +56,7 @@
     "echarts": "^4.9.0",
     "eva-icons": "^1.1.3",
     "intl": "1.2.5",
-    "ionicons": "^7.4.0",
+    "ionicons": "7.4",
     "leaflet": "1.2.0",
     "lodash": "^4.17.21",
     "nebular-icons": "1.1.0",

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
@@ -13,7 +13,7 @@ interface menuData {
   templateUrl: './menu-list.component.html',
   styleUrls: ['./menu-list.component.scss']
 })
-export class MenuListComponent {
+export class MenuListComponent implements OnChanges {
 
   @Input() excelData: menuData[];
   @Output() submiEvent = new EventEmitter();

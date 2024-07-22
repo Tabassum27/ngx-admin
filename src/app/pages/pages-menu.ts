@@ -2,14 +2,20 @@ import { NbIconConfig, NbMenuItem } from '@nebular/theme';
 
 export const MENU_ITEMS: NbMenuItem[] = [
   {
-    title: 'E-commerce',
-    icon: 'shopping-cart-outline',
+    title: 'E-commerce1',
+    icon: {
+      icon: 'desktop-sharp',
+      pack: 'ionicons'
+    },
     link: '/pages/dashboard',
     home: true,
   },
   {
-    title: 'IoT Dashboard',
-    icon: 'home-outline',
+    title: 'IoT Dashboard1',
+    icon: {
+      icon: 'desktop-outline',
+      pack: 'ionicons'
+    },
     link: '/pages/iot-dashboard',
   },
   {
