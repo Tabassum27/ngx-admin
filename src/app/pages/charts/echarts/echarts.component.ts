@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { mapKeys } from 'lodash';
 import * as xls from 'xlsx'
+import * as exampleData from '../../../../assets/data.json';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 interface menuData {
   foodItemOrdered: string,
@@ -18,6 +21,8 @@ export class EchartsComponent {
   excelData: menuData[] = []
 
   showChart: boolean = false;
+
+  chartDataArray: Array<any>[] = [];
 
   sampleData: any[] = [
     {
@@ -42,8 +47,78 @@ export class EchartsComponent {
     }
   ]
 
-  constructor() {
+  constructor(private http: HttpClient
+  ) {
+    this.getJSON().subscribe(data => {
+      this.chartDataArray = data;
+      for (let i = 0; i < this.chartDataArray.length; i++) {
+        let object: any = this.chartDataArray[i];
+
+        //set pie data
+        if (object?.type == 'pie') {
+          object = this.setPieChartsData(object);
+        }
+
+        //set bar data
+        if (object?.type == 'bar') {
+          object = this.setBarChartData(object);
+        }
+
+        //set line data
+        if (object?.type == 'line') {
+          object = this.setLineChartData(object);
+        }
+
+        this.chartDataArray[i] = object;
+      }
+    });
   }
+
+  setPieChartsData(object) {
+    const possibleKeys = ["Restaurant Names", "Delivery Names", "order Names"];
+    let legendData = this.getKeyValues(object, possibleKeys)
+    object.chartsData = {
+      legendData: legendData,
+      seriesName: object["title"],
+      seriesData: this.getSeriesData(legendData, object["Percentages"])
+    }
+    return object;
+  }
+
+  setBarChartData(object) {
+    const possibleKeys = ["Day Names", "hour Names"];
+    let xAxis = this.getKeyValues(object, possibleKeys);
+    object.barChartData = {
+      xAxisData: xAxis,
+      seriesData: object["Counts"],
+      seriesName: object["title"]
+    }
+    return object;
+  }
+
+  setLineChartData(object) {
+    const possibleKeys = ["Month Names"];
+  }
+
+  getSeriesData(names: any[], values: any[]) {
+    return names.map((name, index) => ({
+      value: values[index],
+      name: name
+    }));
+  }
+
+  getKeyValues(object, possibleKeys) {
+    for (const key of possibleKeys) {
+      if (object.hasOwnProperty(key)) {
+        return object[key];
+      }
+    }
+  }
+
+  public getJSON(): Observable<any> {
+    return this.http.get("./assets/data.json");
+  }
+
   onFileSelected(e: any) {
 
     const file = e.target.files[0];

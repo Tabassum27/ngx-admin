@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 
 @Component({
@@ -9,9 +9,12 @@ import { NbThemeService } from '@nebular/theme';
 })
 export class EchartsPieComponent implements AfterViewInit, OnDestroy {
   options: any = {};
+  @Input() chartsData: any;
+
   themeSubscription: any;
 
-  constructor(private theme: NbThemeService) {
+  constructor(private theme: NbThemeService
+  ) {
   }
 
   ngAfterViewInit() {
@@ -30,24 +33,18 @@ export class EchartsPieComponent implements AfterViewInit, OnDestroy {
         legend: {
           orient: 'vertical',
           left: 'left',
-          data: ['USA', 'Germany', 'France', 'Canada', 'Russia'],
+          data: this.chartsData.legendData,
           textStyle: {
             color: echarts.textColor,
           },
         },
         series: [
           {
-            name: 'Countries',
+            name: this.chartsData.seriesName,
             type: 'pie',
             radius: '80%',
             center: ['50%', '50%'],
-            data: [
-              { value: 335, name: 'Germany' },
-              { value: 310, name: 'France' },
-              { value: 234, name: 'Canada' },
-              { value: 135, name: 'Russia' },
-              { value: 1548, name: 'USA' },
-            ],
+            data: this.chartsData.seriesData,
             itemStyle: {
               emphasis: {
                 shadowBlur: 10,
