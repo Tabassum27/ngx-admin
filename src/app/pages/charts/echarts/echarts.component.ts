@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
+import { NbThemeService } from '@nebular/theme';
 import { mapKeys } from 'lodash';
-import * as xls from 'xlsx'
-import * as exampleData from '../../../../assets/data.json';
+import * as exampleData from '../../../../assets/data.json';//'../../../../assets/data.json';
 import { HttpClient } from '@angular/common/http';
+import { delay } from 'rxjs/operators';
+import * as xls from 'xlsx'
 import { Observable } from 'rxjs';
 
 interface menuData {
@@ -19,85 +21,93 @@ interface menuData {
 export class EchartsComponent {
 
   excelData: menuData[] = []
-
   showChart: boolean = false;
-
   chartDataArray: Array<any>[] = [];
+  groupedChartDataArray: any[] = [];
+  labelData: any[] = [];
 
-  sampleData: any[] = [
-    {
-      "name": "Target Product",
-      "likes": '50%',
-      "menuName": "Chicken Biryani"
-    },
-    {
-      "name": "Cross Sell Product 1",
-      "likes": '60%',
-      "menuName": "Strawberry Smoothie"
-    },
-    {
-      "name": "Cross Sell Product 2",
-      "likes": '30%',
-      "menuName": "Caesar Salad"
-    },
-    {
-      "name": "Best Day of the Week",
-      "likes": '41%',
-      "menuName": "Wednseday"
-    }
-  ]
+  constructor(private http: HttpClient,
+    private theme: NbThemeService) {
 
-  constructor(private http: HttpClient
-  ) {
     this.getJSON().subscribe(data => {
       this.chartDataArray = data;
-      for (let i = 0; i < this.chartDataArray.length; i++) {
-        let object: any = this.chartDataArray[i];
 
-        //set pie data
-        if (object?.type == 'pie') {
-          object = this.setPieChartsData(object);
+      this.chartDataArray = this.chartDataArray.map((object: any) => {
+        switch (object?.charttype) {
+          case 'donut':
+          case 'pie':
+            return this.setPieChartData(object);
+          case 'bar':
+            return this.setBarChartData(object);
+          case 'line':
+            return this.setLineChartData(object);
+          // case 'multibar':
+          //   return this.setMultiBarChartData(object);
+          // case 'multiline':
+          //   return this.setMultiLineChartData(object);
+          default:
+            return object;
         }
-
-        //set bar data
-        if (object?.type == 'bar') {
-          object = this.setBarChartData(object);
-        }
-
-        //set line data
-        if (object?.type == 'line') {
-          object = this.setLineChartData(object);
-        }
-
-        this.chartDataArray[i] = object;
-      }
+      });
+      this.groupedChartDataArray = this.groupArray(this.chartDataArray, 3);
+      this.labelData = this.setLabelData();
+      console.log("labelData", this.labelData)
+      console.log("groupedChartDataArray", this.groupedChartDataArray)
     });
   }
 
-  setPieChartsData(object) {
-    const possibleKeys = ["Restaurant Names", "Delivery Names", "order Names"];
-    let legendData = this.getKeyValues(object, possibleKeys)
+  setLabelData() {
+    let data: any[] = this.chartDataArray.filter(e => e["type"]?.includes("label"))
+      .map((data) => {
+        let obj: any[] = [];
+        let nameArray: any[] = data["itemName"];
+        let valueArray = data["itemValue"];
+        nameArray.forEach((item, index) => {
+          obj.push({
+            itemName: item,
+            itemValue: valueArray[index],
+            // option: this.getOptionsObject(valueArray[index])
+          });
+        });
+        return obj;
+      });
+    return data[0];
+  }
+
+  groupArray(data: any[], size: number) {
+    data = data.filter(e => e.charttype);
+    const groupedArray = [];
+    for (let i = 0; i < data.length; i += size) {
+      groupedArray.push(data.slice(i, i + size));
+    }
+    return groupedArray;
+  }
+
+  setPieChartData(object: any) {
     object.chartsData = {
-      legendData: legendData,
+      legendData: object["itemName"],
       seriesName: object["title"],
-      seriesData: this.getSeriesData(legendData, object["Percentages"])
-    }
+      seriesData: this.getSeriesData(object["itemName"], object["itemValue"])
+    };
     return object;
   }
 
-  setBarChartData(object) {
-    const possibleKeys = ["Day Names", "hour Names"];
-    let xAxis = this.getKeyValues(object, possibleKeys);
+  setBarChartData(object: any) {
     object.barChartData = {
-      xAxisData: xAxis,
-      seriesData: object["Counts"],
+      xAxisData: object["itemName"],
+      seriesData: object["itemValue"],
       seriesName: object["title"]
-    }
+    };
     return object;
   }
 
-  setLineChartData(object) {
-    const possibleKeys = ["Month Names"];
+  setLineChartData(object: any) {
+    object.lineChartData = {
+      xAxisData: object["itemName"],
+      seriesData: object["itemValue"],
+      seriesName: object["title"]
+    };
+    return object;
   }
 
   getSeriesData(names: any[], values: any[]) {

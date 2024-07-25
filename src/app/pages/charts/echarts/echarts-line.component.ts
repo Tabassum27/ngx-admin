@@ -23,80 +23,37 @@ export class EchartsLineComponent implements AfterViewInit, OnDestroy {
       this.options = {
         backgroundColor: echarts.bg,
         color: [colors.danger, colors.primary, colors.info],
-        tooltip: {
-          trigger: 'item',
-          formatter: '{a} <br/>{b} : {c}',
+        xAxis: {
+          type: 'category',
+          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
         },
-        legend: {
-          left: 'left',
-          data: ['Line 1', 'Line 2', 'Line 3'],
-          textStyle: {
-            color: echarts.textColor,
-          },
-        },
-        xAxis: [
-          {
-            type: 'category',
-            data: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
-            axisTick: {
-              alignWithLabel: true,
-            },
-            axisLine: {
-              lineStyle: {
-                color: echarts.axisLineColor,
-              },
-            },
-            axisLabel: {
-              textStyle: {
-                color: echarts.textColor,
-              },
-            },
-          },
-        ],
-        yAxis: [
-          {
-            type: 'log',
-            axisLine: {
-              lineStyle: {
-                color: echarts.axisLineColor,
-              },
-            },
-            splitLine: {
-              lineStyle: {
-                color: echarts.splitLineColor,
-              },
-            },
-            axisLabel: {
-              textStyle: {
-                color: echarts.textColor,
-              },
-            },
-          },
-        ],
-        grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '3%',
-          containLabel: true,
+        yAxis: {
+          type: 'value'
         },
         series: [
           {
-            name: 'Line 1',
+            data: [150, 230, 224, 218, 135, 147, 260],
             type: 'line',
-            data: [1, 3, 9, 27, 81, 247, 741, 2223, 6669],
+            color: 'green',
+            smooth: true
           },
           {
-            name: 'Line 2',
+            data: [300, 375, 444, 333, 322, 247, 290],
             type: 'line',
-            data: [1, 2, 4, 8, 16, 32, 64, 128, 256],
+            color: 'red',
+            smooth: true
+
           },
           {
-            name: 'Line 3',
+            data: [160, 444, 322, 322, 322, 290, 150],
             type: 'line',
-            data: [1 / 2, 1 / 4, 1 / 8, 1 / 16, 1 / 32, 1 / 64, 1 / 128, 1 / 256, 1 / 512],
-          },
-        ],
+            color: 'yellow',
+            smooth: true
+          }
+
+        ]
       };
+
     });
   }
 

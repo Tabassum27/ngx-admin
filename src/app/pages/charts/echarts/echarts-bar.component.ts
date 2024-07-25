@@ -9,8 +9,8 @@ import { NbThemeService } from '@nebular/theme';
 })
 export class EchartsBarComponent implements AfterViewInit, OnDestroy {
   options: any = {};
-  @Input() barChartData: any;
   themeSubscription: any;
+  @Input() barChartData: any;
 
   constructor(private theme: NbThemeService) {
   }
@@ -24,66 +24,30 @@ export class EchartsBarComponent implements AfterViewInit, OnDestroy {
       this.options = {
         backgroundColor: echarts.bg,
         color: [colors.primaryLight],
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            type: 'shadow',
-          },
+        xAxis: {
+          type: 'category',
+          data: this.barChartData.xAxisData,//['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
         },
-        grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '3%',
-          containLabel: true,
+        yAxis: {
+          type: 'value'
         },
-        xAxis: [
-          {
-            type: 'category',
-            data: this.barChartData.xAxisData,
-            axisTick: {
-              alignWithLabel: true,
-            },
-            axisLine: {
-              lineStyle: {
-                color: echarts.axisLineColor,
-              },
-            },
-            axisLabel: {
-              textStyle: {
-                color: echarts.textColor,
-              },
-            },
-          },
-        ],
-        yAxis: [
-          {
-            type: 'value',
-            axisLine: {
-              lineStyle: {
-                color: echarts.axisLineColor,
-              },
-            },
-            splitLine: {
-              lineStyle: {
-                color: echarts.splitLineColor,
-              },
-            },
-            axisLabel: {
-              textStyle: {
-                color: echarts.textColor,
-              },
-            },
-          },
-        ],
         series: [
           {
-            name: this.barChartData.seriesName,
+            data: this.barChartData.seriesData,//[120, 200, 150, 80, 70, 110, 130],
             type: 'bar',
-            barWidth: '60%',
-            data: this.barChartData.seriesData,
-          },
-        ],
+            showBackground: true,
+            backgroundStyle: {
+              color: 'rgba(180, 180, 180, 0.2)'
+            },
+            itemStyle: {
+              borderRadius: [7, 7, 0, 0],
+              borderColor: '#fff',
+              borderWidth: 0
+            }
+          }
+        ]
       };
+      ;
     });
   }
 

@@ -30,6 +30,7 @@ import { MenuListComponent } from './menu-list/menu-list.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
+import { EchartsPercentageComponent } from './echarts/echarts-percentage.component';
 
 const components = [
   ChartjsBarComponent,
@@ -51,6 +52,7 @@ const components = [
   EchartsAreaStackComponent,
   EchartsBarAnimationComponent,
   EchartsRadarComponent,
+  EchartsPercentageComponent
 ];
 
 @NgModule({

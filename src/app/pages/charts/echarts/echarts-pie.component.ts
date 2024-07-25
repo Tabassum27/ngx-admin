@@ -10,14 +10,13 @@ import { NbThemeService } from '@nebular/theme';
 export class EchartsPieComponent implements AfterViewInit, OnDestroy {
   options: any = {};
   @Input() chartsData: any;
-
   themeSubscription: any;
 
-  constructor(private theme: NbThemeService
-  ) {
+  constructor(private theme: NbThemeService) {
   }
 
   ngAfterViewInit() {
+
     this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
 
       const colors = config.variables;
@@ -28,45 +27,43 @@ export class EchartsPieComponent implements AfterViewInit, OnDestroy {
         color: [colors.warningLight, colors.infoLight, colors.dangerLight, colors.successLight, colors.primaryLight],
         tooltip: {
           trigger: 'item',
-          formatter: '{a} <br/>{b} : {c} ({d}%)',
+          //formatter: '{a} <br/>{b} : {c} ({d}%)',
         },
         legend: {
-          orient: 'vertical',
-          left: 'left',
+          top: '5%',
+          left: 'center',
           data: this.chartsData.legendData,
           textStyle: {
             color: echarts.textColor,
-          },
+          }
         },
         series: [
           {
-            name: this.chartsData.seriesName,
+            name: 'Access From',
             type: 'pie',
-            radius: '80%',
-            center: ['50%', '50%'],
-            data: this.chartsData.seriesData,
+            radius: ['40%', '70%'],
+            avoidLabelOverlap: false,
             itemStyle: {
-              emphasis: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: echarts.itemHoverShadowColor,
-              },
+              borderRadius: 10,
+              borderColor: '#fff',
+              borderWidth: 2
             },
             label: {
-              normal: {
-                textStyle: {
-                  color: echarts.textColor,
-                },
-              },
+              show: false,
+              position: 'center'
+            },
+            emphasis: {
+              label: {
+                show: true,
+                fontSize: 40,
+                fontWeight: 'bold'
+              }
             },
             labelLine: {
-              normal: {
-                lineStyle: {
-                  color: echarts.axisLineColor,
-                },
-              },
+              show: false
             },
-          },
+            data: this.chartsData.seriesData
+          }
         ],
       };
     });

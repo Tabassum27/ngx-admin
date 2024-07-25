@@ -1,8 +1,13 @@
 import { NbIconConfig, NbMenuItem } from '@nebular/theme';
 
+// Import Ionic icons
+//import {accessibility, personOutline, settingsOutline } from 'ionicons/icons';
+//import { IonicModule } from '@ionic/angular';
+
+
 export const MENU_ITEMS: NbMenuItem[] = [
   {
-    title: 'E-commerce1',
+    title: 'Desktop',
     icon: {
       icon: 'desktop-sharp',
       pack: 'ionicons'
@@ -11,14 +16,96 @@ export const MENU_ITEMS: NbMenuItem[] = [
     home: true,
   },
   {
-    title: 'IoT Dashboard1',
+    title: 'Segment',
     icon: {
-      icon: 'desktop-outline',
+      icon: 'pie-chart-sharp',
       pack: 'ionicons'
     },
     link: '/pages/iot-dashboard',
   },
   {
+    title: 'Scores',
+    icon: {
+      icon: 'speedometer-sharp',
+      pack: 'ionicons'
+    },
+    link: '/pages/iot-dashboard',
+  },
+  {
+    title: 'Churn',
+    icon: {
+      icon: 'trending-down-sharp',
+      pack: 'ionicons'
+    },
+    link: '/pages/iot-dashboard',
+  },
+  {
+    title: 'Upsell',
+    icon: {
+      icon: 'push-sharp',
+      pack: 'ionicons'
+    },
+    link: '/pages/iot-dashboard',
+  },
+  {
+    title: 'Cross-Sell',
+    icon: {
+      icon: 'shuffle-sharp',
+      pack: 'ionicons'
+    },
+    link: '/pages/iot-dashboard',
+  },
+  {
+    title: 'ARPU',
+    icon: {
+      icon: 'cash-sharp',
+      pack: 'ionicons'
+    },
+    link: '/pages/iot-dashboard',
+  },
+  {
+    title: 'Insights',
+    icon: {
+      icon: 'pulse-sharp',
+      pack: 'ionicons'
+    },
+    link: '/pages/iot-dashboard',
+  },
+  {
+    title: 'Custom',
+    icon: 'options-sharp',
+    link: '/pages/iot-dashboard',
+  },
+  {
+    title: 'Settings',
+    icon: {
+      icon: 'settings-sharp',
+      pack: 'ionicons'
+    },
+    link: '/pages/iot-dashboard',
+  },
+  {
+    title: 'Charts',
+    icon: {
+      icon: 'pie-chart-sharp',
+      pack: 'ionicons'
+    },
+    children: [
+      {
+        title: 'Echarts',
+        link: '/pages/charts/echarts',
+      },
+      {
+        title: 'Charts.js',
+        link: '/pages/charts/chartjs',
+      },
+      {
+        title: 'D3',
+        link: '/pages/charts/d3',
+      },
+    ],
+  },
+  /*{
     title: 'FEATURES',
     group: true,
   },
@@ -249,5 +336,5 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/auth/reset-password',
       },
     ],
-  },
+  },*/
 ];
