@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { NbThemeService } from '@nebular/theme';
+import { NbDateService, NbThemeService } from '@nebular/theme';
 import { mapKeys } from 'lodash';
-import * as exampleData from '../../../../assets/data.json';//'../../../../assets/data.json';
 import { HttpClient } from '@angular/common/http';
-import { delay } from 'rxjs/operators';
 import * as xls from 'xlsx'
 import { Observable } from 'rxjs';
 
@@ -25,9 +23,13 @@ export class EchartsComponent {
   chartDataArray: Array<any>[] = [];
   groupedChartDataArray: any[] = [];
   labelData: any[] = [];
+  min: Date;
+  max: Date;
 
   constructor(private http: HttpClient,
-    private theme: NbThemeService) {
+    protected dateService: NbDateService<Date>) {
+    this.min = this.dateService.addDay(this.dateService.today(), -5);
+    this.max = this.dateService.addDay(this.dateService.today(), 5);
 
     this.getJSON().subscribe(data => {
       this.chartDataArray = data;
@@ -39,12 +41,12 @@ export class EchartsComponent {
             return this.setPieChartData(object);
           case 'bar':
             return this.setBarChartData(object);
-          case 'line':
+          case 'multiline':
             return this.setLineChartData(object);
           // case 'multibar':
           //   return this.setMultiBarChartData(object);
-          // case 'multiline':
-          //   return this.setMultiLineChartData(object);
+          case 'line':
+            return this.setLineChartData(object);
           default:
             return object;
         }
@@ -66,7 +68,6 @@ export class EchartsComponent {
           obj.push({
             itemName: item,
             itemValue: valueArray[index],
-            // option: this.getOptionsObject(valueArray[index])
           });
         });
         return obj;
@@ -126,7 +127,7 @@ export class EchartsComponent {
   }
 
   public getJSON(): Observable<any> {
-    return this.http.get("./assets/data.json");
+    return this.http.get("./assets/data/data.json");
   }
 
   onFileSelected(e: any) {

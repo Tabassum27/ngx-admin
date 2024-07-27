@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ChartModule } from 'angular2-chartjs';
-import { NbCardModule, NbIconModule, NbInputModule, NbTreeGridModule } from '@nebular/theme';
+import { NbCardModule, NbDatepickerModule, NbIconModule, NbInputModule, NbTreeGridModule } from '@nebular/theme';
 
 import { ThemeModule } from '../../@theme/theme.module';
 
@@ -25,7 +25,7 @@ import { EchartsBarComponent } from './echarts/echarts-bar.component';
 import { EchartsMultipleXaxisComponent } from './echarts/echarts-multiple-xaxis.component';
 import { EchartsAreaStackComponent } from './echarts/echarts-area-stack.component';
 import { EchartsBarAnimationComponent } from './echarts/echarts-bar-animation.component';
-import { EchartsRadarComponent } from './echarts/echarts-radar.component';
+import { EchartsMultiBarComponent } from './echarts/echarts-multibar.component';
 import { MenuListComponent } from './menu-list/menu-list.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -51,8 +51,8 @@ const components = [
   EchartsMultipleXaxisComponent,
   EchartsAreaStackComponent,
   EchartsBarAnimationComponent,
-  EchartsRadarComponent,
-  EchartsPercentageComponent
+  EchartsPercentageComponent,
+  EchartsMultiBarComponent
 ];
 
 @NgModule({
@@ -68,7 +68,8 @@ const components = [
     NbInputModule,
     Ng2SmartTableModule,
     NgxPaginationModule,
-    FormsModule
+    FormsModule,
+    NbDatepickerModule
   ],
   declarations: [...routedComponents, ...components, MenuListComponent],
 })

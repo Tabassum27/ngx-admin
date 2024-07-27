@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-
+import { desktopOutline, cameraOutline, imageOutline, closeOutline } from 'ionicons/icons'
+import { addIcons } from 'ionicons'
 import { MENU_ITEMS } from './pages-menu';
 
 @Component({
@@ -15,7 +16,13 @@ import { MENU_ITEMS } from './pages-menu';
 export class PagesComponent {
 
   menu = MENU_ITEMS;
+  icons = {
+    desktopOutline
+  }
 
+  constructor() {
+    addIcons(this.icons)
+  }
   /**
    * 
    *   <div myMenu class="main-container main-container-fixed">
