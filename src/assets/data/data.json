@@ -3,27 +3,32 @@
         "type": "label4",
         "title": "",
         "itemName": [
-            "Target Product",
-            "Cross Sell Product 1",
-            "Cross Sell Product 2",
-            "Best Day of the Week"
+            "Upsell",
+            "Crossell",
+            "Top Addon",
+            "Best Upsell Plan",
+            "Best New Plan"
         ],
         "itemValue": [
             {
-                "name": "Chicken Biryani",
-                "value": 9.29
+                "name": "Opportunity",
+                "value": 13.46
             },
             {
-                "name": "Strawberry Sunrise",
-                "value": 6.76
+                "name": "Confidence",
+                "value": 21.97
             },
             {
-                "name": "The Crispy Crunch Burger",
-                "value": 5.22
+                "name": "National 500 Minutes Add-on",
+                "value": 57.39
             },
             {
-                "name": "Thursday",
-                "value": 15.91
+                "name": "Red Pioneer",
+                "value": 5.53
+            },
+            {
+                "name": "Green Pioneer",
+                "value": 9.53
             }
         ],
         "xAxisLabel": [

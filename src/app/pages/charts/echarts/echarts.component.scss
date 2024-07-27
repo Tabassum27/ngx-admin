@@ -22,14 +22,7 @@
 
 .echart {
   position: absolute;
-  left: 0em;
-  height: calc(100% - 2 * 1rem);
-  width: 100%;
-}
-
-.echart {
-  position: absolute;
-  left: 1em;
+  left: 0;
   height: calc(100% - 2 * 1rem);
   width: 40%;
 }
@@ -48,11 +41,35 @@
 }
 
 .dish-text {
-  padding-bottom: 2rem;
-  font-size: 1.5rem;
+  font-size: 18px;
   font-weight: 600;
 }
 
 .custom-file-label::after {
   content: none;
+}
+
+.label-card {
+  height: 10.5rem;
+  padding: 5px;
+
+  nb-card-header {
+    padding: 5px;
+    font-size: 14px;
+  }
+
+  nb-card-body {
+    padding: 5px;
+  }
+}
+
+nb-card-body {
+
+  ngx-echarts-line,
+  ngx-echarts-bar,
+  ngx-echarts-pie,
+  ngx-echarts-multibar {
+    display: block;
+    height: 24rem;
+  }
 }

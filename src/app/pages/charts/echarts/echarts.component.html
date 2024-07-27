@@ -1,5 +1,5 @@
 <ng-container *ngIf="!showChart">
-  <div class="row col-6 input-group mb-3">
+  <div class="row col-6 input-group mb-3" *ngIf="false">
     <div class="custom-file">
       <input type="file" #fileInput accept=".xlsx, .xls, .csv" (change)="onFileSelected($event)"
         class="custom-file-input" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
@@ -16,15 +16,55 @@
   </div>
 </ng-container>
 
+<nb-card class="p-3">
+  <div class="row">
+    <div class="col-md-3">
+      <label for="date">Date Range</label>
+      <input id="date" nbInput placeholder="Range Picker" [nbDatepicker]="rangepicker">
+      <nb-rangepicker #rangepicker></nb-rangepicker>
+    </div>
+    <div class="col-md-3">
+      <label for="select1">Plans</label>
+      <select id="select1" class="custom-select">
+        <option selected>All Plans</option>
+        <option value="1">Red Elite</option>
+        <option value="2">Red Premium</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <label for="select1">Region</label>
+      <select id="select1" class="custom-select">
+        <option selected>All</option>
+        <option value="1">India</option>
+        <option value="2">USA</option>
+      </select>
+    </div>
+  </div>
+</nb-card>
+
 <ng-container *ngIf="true">
   <div class="row">
-    <div class="col-md-3 col-12" *ngFor="let item of labelData">
-      <nb-card size="tiny" class="solar-card">
+    <div class="col" *ngFor="let item of labelData">
+      <!-- <nb-card class="solar-card label-card">
         <nb-card-header>{{item?.itemName}}</nb-card-header>
         <nb-card-body>
           <ngx-echarts-percentage class="echart" [value]="item?.itemValue?.value"></ngx-echarts-percentage>
           <div class="info">
             <div class="dish-text">{{item?.itemValue?.name}}</div>
+          </div>
+        </nb-card-body>
+      </nb-card> -->
+      <nb-card class="label-card solar-card">
+        <nb-card-header>{{item?.itemName}}</nb-card-header>
+        <nb-card-body>
+          <div class="echart-p">
+            <ngx-echarts-percentage class="echart" [value]="item?.itemValue?.value"></ngx-echarts-percentage>
+          </div>
+          <div class="info">
+            <div class="h4 value">{{item?.itemValue?.value}}%</div>
+            <div class="details subtitle-2">{{item?.itemValue?.name}}</div>
+            <!--div class="echart">{{item?.itemValue?.value}}%</div>
+         ng ng    <div class="dish-text">{{item?.itemValue?.name}}</div-->
           </div>
         </nb-card-body>
       </nb-card>
@@ -117,13 +157,17 @@
         <!-- First Column (col-md-3) -->
         <div class="col-md-3">
           <nb-card>
-            <nb-card-header>{{group[0]?.charttype}}</nb-card-header>
+            <nb-card-header>{{group[0]?.title}}</nb-card-header>
             <nb-card-body>
-              <ngx-echarts-bar *ngIf="group[0]?.charttype == 'bar' && group[0]?.barChartData?.seriesName"
+              <ngx-echarts-bar class="echart-bar"
+                *ngIf="group[0]?.charttype == 'bar' && group[0]?.barChartData?.seriesName"
                 [barChartData]="group[0]?.barChartData"></ngx-echarts-bar>
-              <ngx-echarts-line *ngIf="group[0]?.charttype == 'line'"></ngx-echarts-line>
+              <ngx-echarts-line *ngIf="group[0]?.charttype == 'multiline' || group[0]?.charttype == 'line'"
+                [chartsData]="group[0]?.lineChartData"></ngx-echarts-line>
               <ngx-echarts-pie *ngIf="group[0]?.charttype == 'pie'"
                 [chartsData]="group[0]?.chartsData"></ngx-echarts-pie>
+              <ngx-echarts-multiBar *ngIf="group[0]?.charttype == 'multibar'"
+                [chartsData]="group[0]"></ngx-echarts-multiBar>
             </nb-card-body>
           </nb-card>
         </div>
@@ -135,11 +179,15 @@
               <nb-card>
                 <nb-card-header>{{group[1]?.charttype}}</nb-card-header>
                 <nb-card-body>
-                  <ngx-echarts-bar *ngIf="group[1]?.charttype == 'bar' && group[1]?.barChartData?.seriesName"
+                  <ngx-echarts-bar class="echart-bar"
+                    *ngIf="group[1]?.charttype == 'bar' && group[1]?.barChartData?.seriesName"
                     [barChartData]="group[1]?.barChartData"></ngx-echarts-bar>
-                  <ngx-echarts-line *ngIf="group[1]?.charttype == 'line'"></ngx-echarts-line>
+                  <ngx-echarts-line *ngIf="group[1]?.charttype == 'multiline' || group[1]?.charttype == 'line'"
+                    [chartsData]="group[1]?.lineChartData"></ngx-echarts-line>
                   <ngx-echarts-pie *ngIf="group[1]?.charttype == 'pie'"
                     [chartsData]="group[1]?.chartsData"></ngx-echarts-pie>
+                  <ngx-echarts-multiBar *ngIf="group[1]?.charttype == 'multibar'"
+                    [chartsData]="group[1]"></ngx-echarts-multiBar>
                 </nb-card-body>
               </nb-card>
             </div>
@@ -149,11 +197,15 @@
               <nb-card>
                 <nb-card-header>{{group[2]?.charttype}}</nb-card-header>
                 <nb-card-body>
-                  <ngx-echarts-bar *ngIf="group[2]?.charttype == 'bar' && group[2]?.barChartData?.seriesName"
+                  <ngx-echarts-bar class="echart-bar"
+                    *ngIf="group[2]?.charttype == 'bar' && group[2]?.barChartData?.seriesName"
                     [barChartData]="group[2]?.barChartData"></ngx-echarts-bar>
-                  <ngx-echarts-line *ngIf="group[2]?.charttype == 'line'"></ngx-echarts-line>
+                  <ngx-echarts-line *ngIf="group[2]?.charttype == 'multiline' || group[2]?.charttype == 'line'"
+                    [chartsData]="group[2]?.lineChartData"></ngx-echarts-line>
                   <ngx-echarts-pie *ngIf="group[2]?.charttype == 'pie'"
                     [chartsData]="group[2]?.chartsData"></ngx-echarts-pie>
+                  <ngx-echarts-multiBar *ngIf="group[2]?.charttype == 'multibar'"
+                    [chartsData]="group[2]"></ngx-echarts-multiBar>
                 </nb-card-body>
               </nb-card>
             </div>
