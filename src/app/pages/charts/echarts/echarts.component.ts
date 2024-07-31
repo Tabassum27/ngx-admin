@@ -3,7 +3,8 @@ import { NbDateService, NbThemeService } from '@nebular/theme';
 import { mapKeys } from 'lodash';
 import { HttpClient } from '@angular/common/http';
 import * as xls from 'xlsx'
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { DataService } from '../data.service';
 
 interface menuData {
   foodItemOrdered: string,
@@ -18,6 +19,8 @@ interface menuData {
 })
 export class EchartsComponent {
 
+  private dataSubscription: Subscription;
+
   excelData: menuData[] = []
   showChart: boolean = false;
   chartDataArray: Array<any>[] = [];
@@ -27,34 +30,11 @@ export class EchartsComponent {
   max: Date;
 
   constructor(private http: HttpClient,
-    protected dateService: NbDateService<Date>) {
-    this.min = this.dateService.addDay(this.dateService.today(), -5);
-    this.max = this.dateService.addDay(this.dateService.today(), 5);
-
-    this.getJSON().subscribe(data => {
-      this.chartDataArray = data;
-
-      this.chartDataArray = this.chartDataArray.map((object: any) => {
-        switch (object?.charttype) {
-          case 'donut':
-          case 'pie':
-            return this.setPieChartData(object);
-          case 'bar':
-            return this.setBarChartData(object);
-          case 'multiline':
-            return this.setLineChartData(object);
-          // case 'multibar':
-          //   return this.setMultiBarChartData(object);
-          case 'line':
-            return this.setLineChartData(object);
-          default:
-            return object;
-        }
-      });
-      this.groupedChartDataArray = this.groupArray(this.chartDataArray, 3);
-      this.labelData = this.setLabelData();
-      console.log("labelData", this.labelData)
-      console.log("groupedChartDataArray", this.groupedChartDataArray)
+    protected dateService: NbDateService<Date>,
+    private dataService: DataService) {
+    this.dataSubscription = this.dataService.getData().subscribe(data => {
+      this.excelData = data;
+      console.log("excel data from subject..")
     });
   }
 
@@ -130,53 +110,49 @@ export class EchartsComponent {
     return this.http.get("./assets/data/data.json");
   }
 
-  onFileSelected(e: any) {
-
-    const file = e.target.files[0];
-    let fr = new FileReader();
-
-    fr.readAsArrayBuffer(file);
-
-    fr.onload = () => {
-
-      let data = fr.result;
-      let workbook = xls.read(data, { type: 'array' });
-
-      const sheetname = workbook.SheetNames[0];
-
-      const sheet1 = workbook.Sheets[sheetname]
-
-      this.excelData = xls.utils
-        .sheet_to_json(sheet1)
-        .map(row => mapKeys(row, (value, key) => this.toCamelCase(key)))
-        .map(e => {
-          let data = {} as menuData;
-          data.foodItemOrdered = e['foodItemOrdered'];
-          data.orderedItemClass = e['orderedItemClass'];
-          data.orderNo = e['orderNo']
-          return data;
-        });
-
-      this.excelData = this.excelData.slice(0, 50);
-    }
-  }
-
-  // Helper function to convert strings to camelCase
-  private toCamelCase(str: string): string {
-    return str
-      .toLowerCase()
-      .replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, (match, index) =>
-        index === 0 ? match.toLowerCase() : match.toUpperCase()
-      )
-      .replace(/\s+/g, '');
-  }
-
   onSumbitEvent(event) {
     console.log("submit", event);
     this.showChart = true;
+    this.loadJsonData();
   }
+
+  loadJsonData() {
+    this.getJSON().subscribe(data => {
+      this.chartDataArray = data;
+
+      this.chartDataArray = this.chartDataArray.map((object: any) => {
+        switch (object?.charttype) {
+          case 'donut':
+          case 'pie':
+            return this.setPieChartData(object);
+          case 'bar':
+            return this.setBarChartData(object);
+          case 'multiline':
+            return this.setLineChartData(object);
+          // case 'multibar':
+          //   return this.setMultiBarChartData(object);
+          case 'line':
+            return this.setLineChartData(object);
+          default:
+            return object;
+        }
+      });
+      this.groupedChartDataArray = this.groupArray(this.chartDataArray, 3);
+      this.labelData = this.setLabelData();
+      console.log("labelData", this.labelData)
+      console.log("groupedChartDataArray", this.groupedChartDataArray)
+    });
+  }
+
   onBack() {
     this.showChart = false;
   }
+
+  ngOnDestroy(): void {
+    if (this.dataSubscription) {
+      this.dataSubscription.unsubscribe();
+    }
+  }
+
 }
 

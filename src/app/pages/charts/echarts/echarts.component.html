@@ -1,26 +1,8 @@
-<ng-container *ngIf="!showChart">
-  <div class="row col-6 input-group mb-3" *ngIf="false">
-    <div class="custom-file">
-      <input type="file" #fileInput accept=".xlsx, .xls, .csv" (change)="onFileSelected($event)"
-        class="custom-file-input" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
-      <label class="custom-file-label" for="inputGroupFile04">Please selet your dataset</label>
-    </div>
-    <div class="input-group-append">
-      <button class="btn btn-primary" type="button" id="inputGroupFileAddon04" (click)="fileInput.click()">Load
-        Dataset</button>
-    </div>
-  </div>
-  <div class="row col-12">
-    <ngx-menu-list *ngIf="excelData" [excelData]="excelData" (submiEvent)="onSumbitEvent($event)"
-      style="width: 100%;"></ngx-menu-list>
-  </div>
-</ng-container>
-
 <nb-card class="p-3">
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-3 form-group">
       <label for="date">Date Range</label>
-      <input id="date" nbInput placeholder="Range Picker" [nbDatepicker]="rangepicker">
+      <input id="date" class="form-control" nbInput placeholder="Range Picker" [nbDatepicker]="rangepicker">
       <nb-rangepicker #rangepicker></nb-rangepicker>
     </div>
     <div class="col-md-3">
@@ -42,18 +24,27 @@
   </div>
 </nb-card>
 
-<ng-container *ngIf="true">
+<ng-container *ngIf="!showChart">
+  <div class="row col-6 input-group mb-3" *ngIf="false">
+    <div class="custom-file">
+      <input type="file" #fileInput accept=".xlsx, .xls, .csv" (change)="onFileSelected($event)"
+        class="custom-file-input" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
+      <label class="custom-file-label" for="inputGroupFile04">Please selet your dataset</label>
+    </div>
+    <div class="input-group-append">
+      <button class="btn btn-primary" type="button" id="inputGroupFileAddon04" (click)="fileInput.click()">Load
+        Dataset</button>
+    </div>
+  </div>
+  <div class="row col-12">
+    <ngx-menu-list *ngIf="excelData" [excelData]="excelData" (submiEvent)="onSumbitEvent($event)"
+      style="width: 100%;"></ngx-menu-list>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="showChart">
   <div class="row">
     <div class="col" *ngFor="let item of labelData">
-      <!-- <nb-card class="solar-card label-card">
-        <nb-card-header>{{item?.itemName}}</nb-card-header>
-        <nb-card-body>
-          <ngx-echarts-percentage class="echart" [value]="item?.itemValue?.value"></ngx-echarts-percentage>
-          <div class="info">
-            <div class="dish-text">{{item?.itemValue?.name}}</div>
-          </div>
-        </nb-card-body>
-      </nb-card> -->
       <nb-card class="label-card solar-card">
         <nb-card-header>{{item?.itemName}}</nb-card-header>
         <nb-card-body>
@@ -63,8 +54,6 @@
           <div class="info">
             <div class="h4 value">{{item?.itemValue?.value}}%</div>
             <div class="details subtitle-2">{{item?.itemValue?.name}}</div>
-            <!--div class="echart">{{item?.itemValue?.value}}%</div>
-         ng ng    <div class="dish-text">{{item?.itemValue?.name}}</div-->
           </div>
         </nb-card-body>
       </nb-card>
@@ -100,58 +89,7 @@
     </ng-container>
   </div> -->
 
-  <div *ngIf="false" class="row">
-    <ng-container *ngFor="let item of chartDataArray">
-      <div class="col-lg-3 col-12" *ngIf="item?.charttype == 'pie'">
-        <nb-card>
-          <nb-card-header>Pie</nb-card-header>
-          <nb-card-body>
-            <ngx-echarts-pie [chartsData]="item?.chartsData"></ngx-echarts-pie>
-          </nb-card-body>
-        </nb-card>
-      </div>
-      <div class="col-lg-3 col-12" *ngIf="item?.charttype == 'bar'">
-        <nb-card>
-          <nb-card-header>Bar</nb-card-header>
-          <nb-card-body>
-            <ngx-echarts-bar *ngIf="item?.barChartData?.seriesName"
-              [barChartData]="item?.barChartData"></ngx-echarts-bar>
-          </nb-card-body>
-        </nb-card>
-      </div>
-      <div class="col-lg-3 col-12" *ngIf="item?.charttype == 'line'">
-        <nb-card>
-          <nb-card-header>Line</nb-card-header>
-          <nb-card-body>
-            <ngx-echarts-line></ngx-echarts-line>
-          </nb-card-body>
-        </nb-card>
-      </div>
-      <div class="col-lg-9 col-12">
-        <div class="row">
-          <div class="col-lg-6" *ngIf="item?.charttype == 'bar'">
-            <nb-card>
-              <nb-card-header>Bar</nb-card-header>
-              <nb-card-body>
-                <ngx-echarts-bar *ngIf="item?.barChartData?.seriesName"
-                  [barChartData]="item?.barChartData"></ngx-echarts-bar>
-              </nb-card-body>
-            </nb-card>
-          </div>
-          <div class="col-lg-6" *ngIf="item?.charttype == 'line'">
-            <nb-card>
-              <nb-card-header>Line</nb-card-header>
-              <nb-card-body>
-                <ngx-echarts-line></ngx-echarts-line>
-              </nb-card-body>
-            </nb-card>
-          </div>
-        </div>
-      </div>
-    </ng-container>
-  </div>
-
-  <div class="container">
+  <div class="">
     <div class="row">
       <ng-container *ngFor="let group of groupedChartDataArray;let i = index">
         <!-- First Column (col-md-3) -->
@@ -212,7 +150,6 @@
           </div>
         </div>
       </ng-container>
-
     </div>
   </div>
 
